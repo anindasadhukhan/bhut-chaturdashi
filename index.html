@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ভূত চতুর্দশী স্পেশাল 👻</title>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- SheetJS লাইব্রেরি সরাসরি Excel (.xlsx) জেনারেট করার জন্য -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background-color: #08070d;
+      color: #e0e0e0;
+      font-family: 'Hind Siliguri', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .creator-tag {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      border-top: 1px solid rgba(147, 51, 234, 0.2);
+      padding-top: 12px;
+    }
+
+    /* কুয়াশা ও ভুতুড়ে ব্যাকগ্রাউন্ড আভা */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at 50% 30%, rgba(88, 28, 135, 0.35), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 90%;
+      max-width: 480px;
+      background: rgba(18, 16, 26, 0.85);
+      border: 1px solid rgba(147, 51, 234, 0.3);
+      box-shadow: 0 0 25px rgba(147, 51, 234, 0.25), inset 0 0 15px rgba(0, 0, 0, 0.8);
+      border-radius: 16px;
+      padding: 30px 24px;
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+
+    .spooky-title {
+      font-family: 'Creepster', cursive;
+      font-size: 2.8rem;
+      color: #a855f7;
+      text-shadow: 0 0 10px #9333ea, 0 0 20px #6b21a8;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .sub-title {
+      color: #a1a1aa;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .ghost-icon {
+      font-size: 3rem;
+      display: inline-block;
+      animation: floatGhost 3s ease-in-out infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes floatGhost {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #c084fc;
+      font-weight: 600;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      background: #110e1b;
+      border: 1px solid #4c1d95;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: #a855f7;
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #7e22ce, #4c1d95);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(126, 34, 206, 0.4);
+      transition: all 0.25s ease;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #9333ea, #6b21a8);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+    }
+
+    /* স্ক্রিন ট্রানজিশন ক্লাস */
+    .step {
+      display: none;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    .step.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .wishes-heading {
+      font-size: 1.35rem;
+      color: #38bdf8;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: #fbbf24;
+      margin-bottom: 20px;
+    }
+
+    /* কঙ্কাল/ভূতের প্র্যাঙ্ক স্ক্রিন */
+    .result-screen {
+      display: none;
+      animation: jumpscare 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes jumpscare {
+      0% { transform: scale(0.2); opacity: 0; }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- STEP 1: নাম ইনপুট -->
+    <div id="step-name" class="step active">
+      <div class="ghost-icon">👻</div>
+      <h1 class="spooky-title">Bhut Chaturdashi</h1>
+      <p class="sub-title">অন্ধকারে পা দেওয়ার আগে তোমার আসল নাম জানাও...</p>
+      
+      <div class="input-group">
+        <label for="userName">তোমার নাম:</label>
+        <input type="text" id="userName" placeholder="এখানে নাম লেখো..." autocomplete="off">
+      </div>
+      <button class="btn" onclick="goToWishes()">Continue ➔</button>
+    </div>
+
+    <!-- STEP 2: উইশ ইনপুট -->
+    <div id="step-wishes" class="step">
+      <div class="ghost-icon">🕯️</div>
+      <div class="wishes-heading" id="greetingText">শুভ ভূত চতুর্দশী!</div>
+      <p class="tagline">ভূতকে জানাও তোমার ৩টি ইচ্ছা, পূরণ করার দায়িত্ব ভূতের!!</p>
+      
+      <div class="input-group">
+        <label for="wish1">Wish 1:</label>
+        <input type="text" id="wish1" placeholder="প্রথম ইচ্ছা..." autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label for="wish2">Wish 2:</label>
+        <input type="text" id="wish2" placeholder="দ্বিতীয় ইচ্ছা..." autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label for="wish3">Wish 3:</label>
+        <input type="text" id="wish3" placeholder="তৃতীয় ইচ্ছা..." autocomplete="off">
+      </div>
+      
+      <button class="btn" onclick="submitWishes()">Submit Wishes 💀</button>
+    </div>
+
+    <!-- STEP 3: সাবমিট কনফার্মেশন / রেজাল্ট -->
+    <div id="step-result" class="step result-screen">
+      <div style="font-size: 4rem; margin-bottom: 10px;">💀</div>
+      <h2 style="color: #ef4444; font-family: 'Creepster', cursive; font-size: 2.2rem; margin-bottom: 12px;">Wishes Captured!</h2>
+      <p style="color: #cbd5e1; font-size: 1rem; line-height: 1.6;" id="resultMessage"></p>
+    </div>
+<footer class="creator-tag">Designed by Aninda Sadhukhan</footer>
+  </div> <!-- container er closing div -->
+  </div>
+
+  <script>
+    let currentUserName = "";
+
+    // Step 1 -> Step 2
+    function goToWishes() {
+      const nameInput = document.getElementById("userName").value.trim();
+      if (!nameInput) {
+        alert("আগে নামটা তো বলো! ভূতেরা নাম ছাড়া কাউকে চেনে না!");
+        return;
+      }
+      currentUserName = nameInput;
+      document.getElementById("greetingText").innerText = `শুভ ভূত চতুর্দশী ${currentUserName}!`;
+      
+      document.getElementById("step-name").classList.remove("active");
+      document.getElementById("step-wishes").classList.add("active");
+    }
+
+// Step 2 -> Submit & Google Sheets Export
+    function submitWishes() {
+      const w1 = document.getElementById("wish1").value.trim();
+      const w2 = document.getElementById("wish2").value.trim();
+      const w3 = document.getElementById("wish3").value.trim();
+
+      if (!w1 || !w2 || !w3) {
+        alert("৩টেই উইশ লিখতে হবে, নইলে ভূত কিন্তু রাগ করবে!");
+        return;
+      }
+
+      // ১. ডেটা স্ট্রাকচার
+      const wishRecord = {
+        "Name": currentUserName,
+        "Wish 1": w1,
+        "Wish 2": w2,
+        "Wish 3": w3
+      };
+
+      // ২. Google Sheet-এ ডেটা পাঠানো
+      sendToGoogleSheet(wishRecord);
+
+      // ৩. স্ক্রিন ট্রানজিশন
+      document.getElementById("step-wishes").classList.remove("active");
+      const resultScreen = document.getElementById("step-result");
+      resultScreen.classList.add("active");
+      resultScreen.style.display = "block";
+
+      document.getElementById("resultMessage").innerHTML = 
+        `হাহাাহা! <b>${currentUserName}</b>, তোমার ৩টি উইশ ভূতদের ডাটাবেসে সেভ হয়ে গেছে!<br><br>বিনিময়ে ভূত তোমার প্রিয় মিষ্টিটা চুরি করতে আসছে! 🦇`;
+    }
+
+    // Google Sheets Apps Script API Call
+    function sendToGoogleSheet(data) {
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbyDCjhH4I2QVkxAN-A1vbmKGqLbGLb0YesLA6SphiYX05KNWm9jRf72fddhFQrbt7nlDg/exec';
+      
+      fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 
+          'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(data)
+      }).catch(err => console.error("Sheet Sync Error:", err));
+    }
+  </script>
+</body>
+</html>
